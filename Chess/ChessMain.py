@@ -101,9 +101,9 @@ def main():
         if gs.checkMate:
             gameOver = True
             if gs.whiteToMove:
-                drawText(screen, 'B l a c k  w i n s  b y  c h e c k m a t e')
+                drawText(screen, 'Black wins by checkmate')
             else:
-                drawText(screen, 'W h i t e  w i n s  b y  c h e c k m a t e')
+                drawText(screen, 'White wins by checkmate')
         elif gs.staleMate:
             gameOver = True
             drawText(screen, 'Stalemate')
@@ -187,18 +187,15 @@ def animateMove(move, screen, board, clock):
         clock.tick(60)
 
 
-def drawText(screen, text):
-    font = p.font.SysFont('Arial', 32, True, False)
-    textObject = font.render(text, True, p.Color('navy'))
+def drawText(screen,text):
+    font = p.font.SysFont('comicsansms',32,True,False)
+    textObject = font.render(text,True,p.Color('indigo'))
     shadowOffset = 4
-    shadowObject = font.render(text, True, p.Color('Gray'))
-    textLocation = p.Rect(0, 0, WIDTH, HEIGHT).move(WIDTH // 2 - textObject.get_width() // 2,
-                                                    HEIGHT // 2 - textObject.get_height() // 2)
-    shadowLocation = textLocation.move(shadowOffset, shadowOffset)
-
-    screen.blit(shadowObject, shadowLocation)
-    screen.blit(textObject, textLocation)
-
+    shadowObject = font.render(text,True,p.Color('Gray'))
+    textLocation = p.Rect(0,0,WIDTH,HEIGHT).move(WIDTH // 2 - textObject.get_width() // 2,HEIGHT // 2 - textObject.get_height() // 2)
+    shadowLocation = textLocation.move(shadowOffset,shadowOffset)
+    screen.blit(shadowObject,shadowLocation)
+    screen.blit(textObject,textLocation)
 
 if __name__ == '__main__':
     main()
