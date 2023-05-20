@@ -5,7 +5,7 @@ pieceScore = {'K': 0, "p": 1, "N": 3, "B": 3, "R": 5, "Q": 10}
 CHECKMATE = 1000    # if you lead to checkmate you win -> hence max attainable score
 # If you can win(capture opponent's piece) avoid it but if you loosing(opponent can give you Checkmate) try it hence 0 and not -1000
 STALEMATE = 0
-DEPTH = 3        # Depth for recursive calls
+DEPTH = 2        # Depth for recursive calls
 
 # Function to calculate RANDOM move from the list of valid moves.
 
@@ -63,9 +63,9 @@ def findBestMove(gs, validMoves):
     global nextMove     # to find the next move
     nextMove = None
     random.shuffle(validMoves)
-    findMoveNegaMax(gs, validMoves, DEPTH, 1 if gs.whiteToMove else -1)
-    #findMoveMinMax(gs, validMoves, DEPTH, -CHECKMATE, gs.whiteToMove)
-    #findMoveNegaMaxAlphaBeta(gs, validMoves, DEPTH,-CHECKMATE, CHECKMATE, 1 if gs.getValidMoves else -1)
+    #findMoveNegaMax(gs, validMoves, DEPTH, 1 if gs.whiteToMove else -1)
+    #findMoveMinMax(gs, validMoves, DEPTH, gs.whiteToMove)
+    findMoveNegaMaxAlphaBeta(gs, validMoves, DEPTH,-CHECKMATE, CHECKMATE, 1 if gs.getValidMoves else -1)
     return nextMove
 
 '''
@@ -74,7 +74,7 @@ def findBestMove(gs, validMoves):
 def findMoveMinMax(gs, validMoves, depth, whiteToMove):
     global nextMove
     if depth == 0:      # We have reached the bottom of the tree -> with fixed depth == DEPTH
-        return boardScore(gs)   #return the score
+        return boardScore(gs.board)   #return the score
 
     if whiteToMove:  # Try to maximise score
         maxScore = -CHECKMATE
@@ -128,9 +128,8 @@ BEST Move calculator using NegaMax Algorithm along with  Alpha Beta Pruning
 def findMoveNegaMaxAlphaBeta(gs, validMoves, depth, alpha, beta, turnMultiplier):
     global nextMove
     if depth == 0:
-        return turnMultiplier * boardScore(gs)
+        return turnMultiplier * boardScore(gs.board)
 
-    # Move Ordering -> (TODO)
     # Traverse better moves 1st -> ones with checks and captures -> will lead to more pruning and more optimised algorithm
     maxScore = -CHECKMATE
     for move in validMoves:

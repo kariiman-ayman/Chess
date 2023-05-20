@@ -36,12 +36,12 @@ def main():
     PlayerOne = False
     PlayerTwo = False
     while running:
-        humanTurn = (gs.whiteToMove and PlayerOne) or (not gs.whiteToMove and PlayerTwo)
+        AgentTurn = (gs.whiteToMove and PlayerOne) or (not gs.whiteToMove and PlayerTwo)
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
             elif e.type == p.MOUSEBUTTONDOWN:
-                if not gameOver and humanTurn:
+                if not gameOver and AgentTurn:
                     location = p.mouse.get_pos()
                     col = location[0]//SQ_SIZE
                     row = location[1]//SQ_SIZE
@@ -82,7 +82,7 @@ def main():
                     # gameOver = False
 
         # AI Move finder
-        if not gameOver and not humanTurn:
+        if not gameOver and not AgentTurn:
             AIMove = SmartMoveFinder.findBestMove(gs, validMoves)
             # If AI can't find any move -> if any move will lead to opponent giving a checkmate.
             if AIMove is None:
@@ -188,16 +188,16 @@ def animateMove(move, screen, board, clock):
 
 
 def drawText(screen, text):
-    #  Font Name  Size Bold  Italics
-    font = p.font.SysFont('Helvitica', 32, True, False)
-    textObject = font.render(text, 0, p.Color('Black'))
-    textLocation = p.Rect(0, 0, WIDTH, HEIGHT).move(WIDTH / 2 - textObject.get_width() / 2,
-                                                    HEIGHT / 2 - textObject.get_height() / 2)
+    font = p.font.SysFont('Arial', 32, True, False)
+    textObject = font.render(text, True, p.Color('navy'))
+    shadowOffset = 4
+    shadowObject = font.render(text, True, p.Color('Gray'))
+    textLocation = p.Rect(0, 0, WIDTH, HEIGHT).move(WIDTH // 2 - textObject.get_width() // 2,
+                                                    HEIGHT // 2 - textObject.get_height() // 2)
+    shadowLocation = textLocation.move(shadowOffset, shadowOffset)
+
+    screen.blit(shadowObject, shadowLocation)
     screen.blit(textObject, textLocation)
-    textObject = font.render(text, 0, p.Color('Gray'))
-    screen.blit(textObject, textLocation.move(2, 2))
-    textObject = font.render(text, 0, p.Color('Blue'))
-    screen.blit(textObject, textLocation.move(4, 4))
 
 
 if __name__ == '__main__':
