@@ -15,8 +15,7 @@ def loadImages():
     pieces = ["wp", "wR", "wN", "wB", "wK",
               "wQ", "bp", "bR", "bN", "bB", "bK", "bQ"]
     for piece in pieces:
-        IMAGES[piece] = p.transform.scale(p.image.load(
-            "CHESS/Images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE))
+        IMAGES[piece] = p.transform.scale(p.image.load("C:/Users/Hanen/Downloads/Chess-main/Chess-main/Chess/Images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE))
 
 
 def main():
@@ -37,8 +36,7 @@ def main():
     PlayerOne = False
     PlayerTwo = False
     while running:
-        humanTurn = (gs.whiteToMove and PlayerOne) or (
-            not gs.whiteToMove and PlayerTwo)
+        humanTurn = (gs.whiteToMove and PlayerOne) or (not gs.whiteToMove and PlayerTwo)
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
