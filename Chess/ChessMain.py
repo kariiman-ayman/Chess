@@ -15,7 +15,7 @@ def loadImages():
     pieces = ["wp", "wR", "wN", "wB", "wK",
               "wQ", "bp", "bR", "bN", "bB", "bK", "bQ"]
     for piece in pieces:
-        IMAGES[piece] = p.transform.scale(p.image.load("C:/Users/Hanen/Downloads/Chess-main/Chess-main/Chess/Images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE))
+        IMAGES[piece] = p.transform.scale(p.image.load("Images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE))
 
 
 def main():
@@ -101,9 +101,9 @@ def main():
         if gs.checkMate:
             gameOver = True
             if gs.whiteToMove:
-                drawText(screen, 'Black wins by checkmate')
+                drawText(screen, 'Black wins by checkmate!')
             else:
-                drawText(screen, 'White wins by checkmate')
+                drawText(screen, 'White wins by checkmate!')
         elif gs.staleMate:
             gameOver = True
             drawText(screen, 'Stalemate')
@@ -111,31 +111,10 @@ def main():
         p.display.flip()
 
 
-def highlightSquares(screen, gs, validMoves, sqSelected):
-    if sqSelected != ():
-        r, c = sqSelected
-        if gs.board[r][c][0] == ('w' if gs.whiteToMove else 'b'):
-            # Highlighting the selected Square
-            s = p.Surface((SQ_SIZE, SQ_SIZE))
-            # transparency value -> 0 : 100% transparent | 255 : 100% Opaque
-            s.set_alpha(100)
-            s.fill(p.Color('blue'))
-            screen.blit(s, (c * SQ_SIZE, r * SQ_SIZE))
-
-            # Highlighting the valid move squares
-            s.fill(p.Color('yellow'))
-
-            for move in validMoves:
-                if move.startRow == r and move.startCol == c:
-                    screen.blit(
-                        s, (move.endCol * SQ_SIZE, move.endRow * SQ_SIZE))
-
-
 def drawGameState(screen, gs, validMoves, sqSelected):
     # draw squares on board (should be called before drawing anything else)
     drawBoard(screen)
     drawPieces(screen, gs.board)  # draw pieces on the board
-    highlightSquares(screen, gs, validMoves, sqSelected)
 
 
 def drawBoard(screen):
@@ -146,7 +125,7 @@ def drawBoard(screen):
             color = colors[((r+c) % 2)]
             p.draw.rect(screen, color, p.Rect(
                 c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
-# Highlight square selected and moves for a peice selected
+# Highlight square selected and moves for a piece selected
 
 
 def drawPieces(screen, board):
@@ -187,15 +166,18 @@ def animateMove(move, screen, board, clock):
         clock.tick(60)
 
 
-def drawText(screen,text):
-    font = p.font.SysFont('comicsansms',32,True,False)
-    textObject = font.render(text,True,p.Color('indigo'))
+def drawText(screen, text):
+    font = p.font.SysFont('comicsansms', 32, True, False)
+    textObject = font.render(text, True, p.Color('indigo'))
     shadowOffset = 4
-    shadowObject = font.render(text,True,p.Color('Gray'))
-    textLocation = p.Rect(0,0,WIDTH,HEIGHT).move(WIDTH // 2 - textObject.get_width() // 2,HEIGHT // 2 - textObject.get_height() // 2)
-    shadowLocation = textLocation.move(shadowOffset,shadowOffset)
-    screen.blit(shadowObject,shadowLocation)
-    screen.blit(textObject,textLocation)
+    shadowObject = font.render(text, True, p.Color('Gray'))
+    textLocation = p.Rect(0, 0, WIDTH, HEIGHT).move(WIDTH // 2 - textObject.get_width() // 2,
+                                                    HEIGHT // 2 - textObject.get_height() // 2)
+    shadowLocation = textLocation.move(shadowOffset, shadowOffset)
+
+    screen.blit(shadowObject, shadowLocation)
+    screen.blit(textObject, textLocation)
+
 
 if __name__ == '__main__':
     main()
